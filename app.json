@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "Jio Cinema Clone",
+    "slug": "jio-cinema-clone",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/Logo.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/Logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/Logo.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/Logo.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ff853cc8-add0-4936-b591-f2d7f64c74e4"
+      }
+    },
+    "owner": "r99.2588"
+  }
+}
