@@ -15,6 +15,7 @@ import Sports from './screens/Sports';
 import Downloads from './screens/Downloads';
 import LoginOrSignUp from './screens/LoginOrSignUp';
 import Search from './screens/Search';
+import Profile from './screens/Profile';
 
 // Icons
 
@@ -29,7 +30,6 @@ const Tab = createBottomTabNavigator();
 const Main = () => {
   return (
     <><StatusBar barStyle='light-content' backgroundColor='#1f1e1e' />
-
 
         <Tab.Navigator
           screenOptions={{
@@ -88,6 +88,7 @@ const App = () => {
     <Stack.Navigator initialRouteName='Main'>
       <Stack.Screen name="Main" component={Main} options={{headerShown: false}}/>
       <Stack.Screen name="Search" component={Search} options={{headerShown: false}}/>
+      <Stack.Screen name="Profile" component={Profile} options={{headerShown: false}}/>
     </Stack.Navigator>
     </NavigationContainer>
   );

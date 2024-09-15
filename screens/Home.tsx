@@ -4,13 +4,14 @@ import React from 'react';
 // components
 
 import Header from '../components/Header';
+import WatchNow from '../components/WatchNow';
 // import Content from '../components/Content';
-// import WatchNow from '../components/WatchNow';
 
 const Home = () => {
   return (
     <SafeAreaView style={styles.background}>
       <Header heading='Home'/>
+      <WatchNow />
     </SafeAreaView>
   )
 }

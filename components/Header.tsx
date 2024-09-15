@@ -3,20 +3,32 @@ import React from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 
+// Defining the type of prop for the heading 
 interface Props {
   heading: string;
 }
 
-const navigation = useNavigation();
-
-const openSearch = () => {
-  navigation.navigate('Search');
-  console.log("Opened Search");
-}
-
+// Header
 const Header = ({ heading }: Props) => {
+  // Initialises the navigation object for handling the navigation 
+  const navigation = useNavigation();
+  
+  // opens the the search screen when search icon is pressed 
+  const openSearch = () => {
+    navigation.navigate('Search');
+    console.log("Opened Search");
+  }
+
+  // opens the the search screen when search icon is pressed 
+  const openProfile = () => {
+    navigation.navigate('Profile');
+    console.log("Opened Profile");
+  }
+
   return (
     <View style={styles.container}>
+
+      {/* This image is at the right side*/}
       <Image
         style={styles.logo}
         source={
@@ -24,15 +36,19 @@ const Header = ({ heading }: Props) => {
         }
       />
 
+      {/* Heading is at the center */}
       <Text style={styles.heading}>{heading}</Text>
 
+      {/* The container holds the search icon and the profile picture on the right side*/}
       <View style={styles.searchAndProfile}>
 
+        {/* Opens search screen on pressed on the search icon */}
         <Pressable onPress={openSearch}>
           <Ionicons name="search-outline" size={32} color="white" />
         </Pressable>
 
-        <Pressable>
+        {/* Opens the profile screen on press on the profile image*/}
+        <Pressable onPress={openProfile}>
           <Image
             source={{ uri: 'https://watchersonthewall.com/wp-content/uploads/2019/04/Jon-Snow-Horse-Winterfell-Season-8.jpg' }}
             style={styles.logo}
@@ -40,13 +56,13 @@ const Header = ({ heading }: Props) => {
         </Pressable>
 
       </View>
-
     </View>
   )
 }
 
 export default Header;
 
+// Stylings
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 20,
