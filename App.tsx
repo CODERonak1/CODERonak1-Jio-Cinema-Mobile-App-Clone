@@ -16,6 +16,7 @@ import Downloads from './screens/Downloads';
 import LoginOrSignUp from './screens/LoginOrSignUp';
 import Search from './screens/Search';
 import Profile from './screens/Profile';
+import VideoPage from './screens/VideoPage';
 
 // Icons
 
@@ -87,8 +88,13 @@ const App = () => {
     <NavigationContainer>
     <Stack.Navigator initialRouteName='Main'>
       <Stack.Screen name="Main" component={Main} options={{headerShown: false}}/>
+      
       <Stack.Screen name="Search" component={Search} options={{headerShown: false}}/>
+
       <Stack.Screen name="Profile" component={Profile} options={{headerShown: false}}/>
+
+      <Stack.Screen name="VideoPage" component={VideoPage} options={{headerShown: false}}/>
+      
     </Stack.Navigator>
     </NavigationContainer>
   );
