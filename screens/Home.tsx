@@ -7,10 +7,13 @@ import Header from '../components/Header';
 import WatchNow from '../components/WatchNow';
 import Content from '../components/Content';
 
+
+// Home Screen
 const Home = () => {
   return (
     <ScrollView>
       <SafeAreaView style={styles.background}>
+        {/* adds the components header, watch now and content in the home*/}
         <Header heading='Home' />
         <WatchNow />
         <Content />
@@ -21,7 +24,11 @@ const Home = () => {
 
 export default Home;
 
+// Styles
+
 const styles = StyleSheet.create({
+
+  //  makes the background to #1f1e1e
   background: {
     backgroundColor: "#1f1e1e",
     height: "100%",
