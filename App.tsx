@@ -28,74 +28,91 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+// This is the main screen which controls the tab navigations
 const Main = () => {
   return (
     <><StatusBar barStyle='light-content' backgroundColor='#1f1e1e' />
 
-        <Tab.Navigator
-          screenOptions={{
-            tabBarStyle: {
-              backgroundColor: "#1f1e1e",
-              borderTopWidth: 0,
-              height: 60,
-              paddingBottom: 5.
-            },
+      <Tab.Navigator
 
-            tabBarLabelStyle: {
-              fontWeight: "bold",
-              fontSize: 12,
-            },
+        // This will control the tab bar
+        screenOptions={{
+          tabBarStyle: {
+            backgroundColor: "#1f1e1e",
+            borderTopWidth: 0,
+            height: 60,
+            paddingBottom: 5.
+          },
 
-            tabBarActiveTintColor: "#d9008d",
-            tabBarInactiveTintColor: "gray",
-          }}
-          initialRouteName='Home'
-        >
-          <Tab.Screen name="Home" component={Home} options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => <Entypo name="home" size={24} color={color} />
-          }} />
+          tabBarLabelStyle: {
+            fontWeight: "bold",
+            fontSize: 12,
+          },
 
-          <Tab.Screen name="Sports" component={Sports} options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => <MaterialIcons name="sports-cricket" size={24} color={color} />
-          }} />
+          tabBarActiveTintColor: "#d9008d",
+          tabBarInactiveTintColor: "gray",
+        }}
+        // This sets the initial screen as the Home
+        initialRouteName='Home'
+      >
+        {/* This is the Home tabs style and icon */}
+        <Tab.Screen name="Home" component={Home} options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => <Entypo name="home" size={24} color={color} />
+        }} />
 
-          <Tab.Screen name="Movies" component={Movies} options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => <MaterialIcons name="movie" size={24} color={color} />
-          }} />
+        {/* This is the Sports tabs style and icon */}
+        <Tab.Screen name="Sports" component={Sports} options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => <MaterialIcons name="sports-cricket" size={24} color={color} />
+        }} />
 
-          <Tab.Screen name="TvShows" component={TvShows} options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => <Entypo name="tv" size={24} color={color} />,
-            title: "TV Shows"
-          }} />
+        {/* This is the Movies tabs style and icon */}
+        <Tab.Screen name="Movies" component={Movies} options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => <MaterialIcons name="movie" size={24} color={color} />
+        }} />
 
-          <Tab.Screen name="Downloads" component={Downloads} options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => <Entypo name="download" size={24} color={color} />
-          }} />
+        {/* This is the Tv Shows tabs style and icon */}
+        <Tab.Screen name="TvShows" component={TvShows} options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => <Entypo name="tv" size={24} color={color} />,
+          title: "TV Shows"
+        }} />
 
-        </Tab.Navigator>
-      </>
+        {/* This is the Downloads tabs style and icon */}
+        <Tab.Screen name="Downloads" component={Downloads} options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => <Entypo name="download" size={24} color={color} />
+        }} />
+
+      </Tab.Navigator>
+    </>
   )
 }
 
 const App = () => {
   return (
-
+    // THis the navigation container which controls the navigation of the app
     <NavigationContainer>
-    <Stack.Navigator initialRouteName='Main'>
-      <Stack.Screen name="Main" component={Main} options={{headerShown: false}}/>
-      
-      <Stack.Screen name="Search" component={Search} options={{headerShown: false}}/>
+      {/* This is the stack navigator which controls the screens */}
 
-      <Stack.Screen name="Profile" component={Profile} options={{headerShown: false}}/>
+      {/* This sets the initial screen as the Main */}
+      <Stack.Navigator initialRouteName='Main'>
 
-      <Stack.Screen name="VideoPage" component={VideoPage} options={{headerShown: false}}/>
-      
-    </Stack.Navigator>
+        {/* This is the Main screen which controls the tab navigations */}
+        <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
+
+        {/* This stack controls the navigation of the search screen */}
+        <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
+
+        {/* This stack controls the navigation of the Profile screen */}
+        <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+
+        {/* This stack controls the navigation of the Video Page screen */}
+        <Stack.Screen name="VideoPage" component={VideoPage} options={{ headerShown: false }} />
+
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
