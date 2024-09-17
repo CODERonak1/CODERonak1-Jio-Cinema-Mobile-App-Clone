@@ -1,9 +1,24 @@
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, SafeAreaView, Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const Profile = () => {
+
+    const navigation = useNavigation();
+
+    const back = () => {
+        navigation.goBack();
+        console.log("Just went back from the Profile screen");
+    }
+
     return (
         <SafeAreaView style={styles.background}>
+
+            <Pressable onPress={back}>
+                <AntDesign name="left" size={24} color="white" style={{ marginTop: 15, marginLeft: 15 }} />
+            </Pressable>
+
             <View style={styles.container}>
                 <Text style={styles.text}>I am Profile</Text>
             </View>

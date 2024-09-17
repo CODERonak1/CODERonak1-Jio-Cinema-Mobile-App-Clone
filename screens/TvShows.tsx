@@ -1,13 +1,21 @@
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native'
+import React from 'react';
+
+// components
+
+import Header from '../components/Header';
+import WatchNow from '../components/WatchNow';
+import Content from '../components/Content';
 
 const TvShows = () => {
   return (
-    <SafeAreaView style={styles.background}>
-      <View style={styles.container}>
-        <Text style={styles.text}>TvShows</Text>
-      </View>
-    </SafeAreaView>
+    <ScrollView>
+      <SafeAreaView style={styles.background}>
+        <Header heading='TV Shows' />
+        <WatchNow />
+        <Content />
+      </SafeAreaView>
+    </ScrollView>
   )
 }
 

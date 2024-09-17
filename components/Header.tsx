@@ -32,7 +32,7 @@ const Header = ({ heading }: Props) => {
       <Image
         style={styles.logo}
         source={
-          require('../assets/Logo.png')
+          require('../assets/Logo1.png')
         }
       />
 
