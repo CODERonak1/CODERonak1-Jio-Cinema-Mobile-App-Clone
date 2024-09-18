@@ -48,11 +48,11 @@ const WatchNow = () => {
             };
           } catch (error) {
             console.error('Error getting download URL:', error);
-            return {
-              id: index.toString(),
-              imgUrl: './jio.png',
-              name: 'Image Error',
-            };
+            // return {
+            //   id: index.toString(),
+            //   imgUrl: '../assets/Jio.png',
+            //   name: 'Image Error',
+            // };
           }
         })
       );
