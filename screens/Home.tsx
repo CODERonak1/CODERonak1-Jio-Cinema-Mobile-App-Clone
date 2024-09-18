@@ -2,11 +2,10 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native'
 import React from 'react';
 
 // components
-
 import Header from '../components/Header';
 import WatchNow from '../components/WatchNow';
+import Channels from '../components/Channels';
 import Content from '../components/Content';
-
 
 // Home Screen
 const Home = () => {
@@ -16,6 +15,7 @@ const Home = () => {
         {/* adds the components header, watch now and content in the home*/}
         <Header heading='Home' />
         <WatchNow />
+        <Channels />
         <Content />
       </SafeAreaView>
     </ScrollView>
