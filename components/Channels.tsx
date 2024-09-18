@@ -3,44 +3,61 @@ import React from 'react';
 
 const Channels = () => {
     return (
-        <ScrollView style={styles.channels} horizontal={true} showsHorizontalScrollIndicator={false}>
 
+        // using scroll view for the horizontal channel
+        <ScrollView style={styles.channels} horizontal={true} showsHorizontalScrollIndicator={false}>
+            
+            {/* colors */}
             <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
                 <Image source={require('../assets/channels/Colors.png')} style={styles.channelImg} />
             </Pressable>
 
+{/* MTV */}
             <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
                 <Image source={require('../assets/channels/MTV.png')} style={styles.channelImg} />
             </Pressable>
 
+{/* colors kannada */}
             <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
                 <Image source={require('../assets/channels/ColorsKann.png')} style={styles.channelImg} />
             </Pressable>
 
+{/* colors marathi */}
+            <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
+                <Image source={require('../assets/channels/ColorsMarathi.png')} style={styles.channelImg} />
+            </Pressable>
+
+{/* nick */}
             <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
                 <Image source={require('../assets/channels/Nick.png')} style={styles.channelImg} />
             </Pressable>
 
+{/* HBO */}
             <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
                 <Image source={require('../assets/channels/HBO.png')} style={styles.channelImg} />
             </Pressable>
 
+{/* peacock */}
             <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
                 <Image source={require('../assets/channels/Peacock.png')} style={styles.channelImg} />
             </Pressable>
 
+{/* colors bangla */}
             <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
                 <Image source={require('../assets/channels/ColorsBangla.png')} style={styles.channelImg} />
             </Pressable>
 
+{/* colors gujrathi */}
             <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
                 <Image source={require('../assets/channels/ColorsGuj.png')} style={styles.channelImg} />
             </Pressable>
 
+{/* colors infinity */}
             <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
                 <Image source={require('../assets/channels/ColorsInfinity.png')} style={styles.channelImg} />
             </Pressable>
 
+{/* news 18 india */}
             <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
                 <Image source={require('../assets/channels/News18India.png')} style={styles.channelImg} />
             </Pressable>
