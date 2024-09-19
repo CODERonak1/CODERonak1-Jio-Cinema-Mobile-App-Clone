@@ -24,6 +24,10 @@ const Search = () => {
         { id: 2, name: 'Wonka', imageUrl: 'https://image.tmdb.org/t/p/original/cDkMUi0i85qgjlRqq92k2yzRHA2.jpg' },
         { id: 3, name: 'Game Of Thrones', imageUrl: 'https://thedigitalbits.com/media/k2/items/cache/6e4b2528701707a3ed973fc804a3e209_XL.jpg' },
         { id: 4, name: 'House Of The Dragon', imageUrl: 'https://m.media-amazon.com/images/M/MV5BM2QzMGVkNjUtN2Y4Yi00ODMwLTg3YzktYzUxYjJlNjFjNDY1XkEyXkFqcGc@._V1_.jpg' },
+        { id: 5, name: '12 Monkeys', imageUrl: 'https://m.media-amazon.com/images/M/MV5BMTkwOTcxNzMzOV5BMl5BanBnXkFtZTgwODYxNjg0ODE@._V1_.jpg' },
+        { id: 6, name: 'Godzilla x Kong', imageUrl: 'https://4kwallpapers.com/images/wallpapers/godzilla-x-kong-the-2560x2560-15847.jpg' },
+        { id: 7, name: 'Pill', imageUrl: 'https://m.media-amazon.com/images/M/MV5BZWQ5NTliZjQtODRhNS00ZDc5LTkwYjAtZGYzYzg3YWZhMDJhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg' },
+        { id: 8, name: 'Oppenheimer', imageUrl: 'https://cdn.wallpapersafari.com/93/54/80bmWj.jpg' },
     ];
 
     // Handle search and filter results based on input
