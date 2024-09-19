@@ -67,9 +67,10 @@ const Search = () => {
                     placeholderTextColor="grey"
                 />
 
-                <Pressable>
+                 
+                {/* <Pressable>
                     <AntDesign name="search1" size={30} color="white" style={{ marginTop: 6, marginRight: 8 }} />
-                </Pressable>
+                </Pressable> */}
 
             </View>
 
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
 
     contentContainer: {
         flex: 1,
-        flexDirection: 'column',
+        flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'center',
     }
