@@ -48,6 +48,11 @@ const Search = () => {
         console.log("Just went back from the Search screen");
     };
 
+    const openVideoPage = () => {
+        navigation.navigate('VideoPage');
+        console.log("Video Page");
+    }
+
     // Rendering each result item in FlatList, now only showing images
     const renderItem = ({ item }: { item: ImageData }) => (
         <Image source={{ uri: item.imageUrl }} style={styles.resultImage} />
@@ -71,7 +76,7 @@ const Search = () => {
                     placeholderTextColor="grey"
                 />
 
-                 
+
                 {/* <Pressable>
                     <AntDesign name="search1" size={30} color="white" style={{ marginTop: 6, marginRight: 8 }} />
                 </Pressable> */}
@@ -90,11 +95,14 @@ const Search = () => {
                     <View style={styles.contentContainer}>
                         {/* Use map to display all images in the imageData array */}
                         {imageData.map((item) => (
-                            <Image
-                                key={item.id}
-                                source={{ uri: item.imageUrl }}
-                                style={styles.resultImage}
-                            />
+
+                            <Pressable onPress={openVideoPage} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
+                                <Image
+                                    key={item.id}
+                                    source={{ uri: item.imageUrl }}
+                                    style={styles.resultImage}
+                                />
+                            </Pressable>
                         ))}
                     </View>
                 )}
