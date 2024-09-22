@@ -54,7 +54,7 @@ const VideoPage = () => {
                         source={{ uri: videoUri }} 
                         style={styles.video} 
                         useNativeControls 
-                        resizeMode="contain" 
+                        resizeMode="cover" 
                     />
                 ) : (
                     <Text style={styles.text}>Error loading video.</Text>
