@@ -1,30 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, FlatList, Animated, Pressable } from 'react-native';
 import { ref, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebase'; // Use the initialized Firebase storage
+import { storage } from '../firebase'; 
 import { useNavigation } from '@react-navigation/native';
-
-// icons
-import Entypo from '@expo/vector-icons/Entypo';
-
 
 interface ImageData {
   id: string;
   imgUrl: string;
-  name: string;
+  name: string; // This is the video name
+  videoUrl: string; // Video URL for navigation
 }
 
 const { width } = Dimensions.get('window');
 
 const WatchNow = () => {
-
   const navigation = useNavigation();
-
-  const openVideoPage = () => {
-    navigation.navigate('VideoPage');
-    console.log("Video Page");
-  }
-
   const [images, setImages] = useState<ImageData[]>([]);
   const scrollX = new Animated.Value(0);
 
@@ -44,15 +34,16 @@ const WatchNow = () => {
             return {
               id: index.toString(),
               imgUrl: imageUrl,
-              name: ['Godzilla x Kong', 'Game Of Thrones', 'Dune 2', 'Oppenheimer'][index],
+              name: ['Godzilla x Kong', 'Game Of Thrones', 'Dune', 'Oppenheimer'][index],
+              videoUrl: [
+                'Video/Godzilla x Kong.mp4',
+                'Video/Game of Thrones.mp4',
+                'Video/Dune.mp4',
+                'Video/Oppenheimer.mp4',
+              ][index],
             };
           } catch (error) {
             console.error('Error getting download URL:', error);
-            // return {
-            //   id: index.toString(),
-            //   imgUrl: '../assets/Jio.png',
-            //   name: 'Image Error',
-            // };
           }
         })
       );
@@ -63,15 +54,18 @@ const WatchNow = () => {
     fetchImages();
   }, []);
 
+  const openVideoPage = (videoUrl: string, videoName: string) => {
+    navigation.navigate('VideoPage', { videoUrl, videoName }); // Pass both video URL and video name
+  };
+
   const renderItem = ({ item }: { item: ImageData }) => (
     <View style={styles.imageContainer}>
-      <Pressable onPress={openVideoPage} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
+      <Pressable onPress={() => openVideoPage(item.videoUrl, item.name)} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
         <Image source={{ uri: item.imgUrl }} style={styles.image} />
       </Pressable>
     </View>
   );
 
-  // Render dot indicators
   const renderDots = () => {
     return (
       <View style={styles.dotsContainer}>
@@ -87,10 +81,7 @@ const WatchNow = () => {
           });
 
           return (
-            <Animated.View
-              key={`dot-${index}`}
-              style={[styles.dot, { opacity: dotOpacity }]}
-            />
+            <Animated.View key={`dot-${index}`} style={[styles.dot, { opacity: dotOpacity }]} />
           );
         })}
       </View>
@@ -103,22 +94,17 @@ const WatchNow = () => {
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled
-        data={images} // Use the images state here
-        renderItem={renderItem} // Correct renderItem to use renderItem function
+        data={images}
+        renderItem={renderItem}
         keyExtractor={(item) => item.id}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-          { useNativeDriver: false } // Set useNativeDriver to false for animated scroll
+          { useNativeDriver: false }
         )}
         scrollEventThrottle={16}
       />
 
       {renderDots()}
-
-      <Pressable onPress={openVideoPage} android_ripple={{ color: '#00000035', borderless: false, foreground: true }} style={styles.Button}>
-        <Entypo name="controller-play" size={30} color="white" style={{ marginRight: 5 }} />
-        <Text style={styles.btnText}>Watch Now</Text>
-      </Pressable>
     </View>
   );
 };
@@ -151,22 +137,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#d9008d',
     marginHorizontal: 5,
   },
-
-  Button: {
-    backgroundColor: "#d9008d",
-    padding: 10,
-    borderRadius: 25,
-    position: "absolute",
-    top: 420,
-    left: 120,
-    flexDirection: "row",
-    overflow: "hidden",
-
-  },
-  btnText: {
-    color: "white",
-    fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
-  }
 });

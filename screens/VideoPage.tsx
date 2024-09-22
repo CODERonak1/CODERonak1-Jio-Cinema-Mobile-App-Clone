@@ -1,70 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Pressable, ActivityIndicator } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Video } from 'expo-av';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../firebase'; 
-import AntDesign from '@expo/vector-icons/AntDesign';
-import { Ionicons } from '@expo/vector-icons';
-import * as ScreenOrientation from 'expo-screen-orientation';
+
+interface VideoPageParams {
+    videoUrl: string;
+    videoName: string;
+}
 
 const VideoPage = () => {
     const navigation = useNavigation();
-    const [videoUrl, setVideoUrl] = useState(null);
+    const route = useRoute<{ params: VideoPageParams | undefined }>(); // Allow params to be undefined
+    const { videoUrl, videoName } = route.params || { videoUrl: '', videoName: '' }; // Default values if params are undefined
+
+    const [videoUri, setVideoUri] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [isPortrait, setIsPortrait] = useState(true);
-    let orientationLockTimeout; // Timeout variable
-
-    // Function to handle orientation changes
-    const handleOrientationChange = async () => {
-        const dim = await ScreenOrientation.getOrientationAsync();
-        const portrait = dim === ScreenOrientation.OrientationLock.PORTRAIT_UP || dim === ScreenOrientation.OrientationLock.PORTRAIT_DOWN;
-
-        if (isPortrait !== portrait) {
-            setIsPortrait(portrait);
-
-            // Clear the previous timeout
-            clearTimeout(orientationLockTimeout);
-
-            if (portrait) {
-                // Allow auto-rotation when in portrait
-                orientationLockTimeout = setTimeout(() => {
-                    ScreenOrientation.unlockAsync();
-                }, 200); // Delay for stabilization
-            } else {
-                // Lock to landscape mode if in landscape orientation
-                orientationLockTimeout = setTimeout(() => {
-                    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
-                }, 200); // Delay for stabilization
-            }
-        }
-    };
 
     useEffect(() => {
+        if (!videoUrl) {
+            console.error("No video URL provided");
+            setIsLoading(false);
+            return;
+        }
+
         const fetchVideoUrl = async () => {
             try {
-                const url = await getDownloadURL(ref(storage, 'Video/Godzilla x Kong.mp4'));
-                setVideoUrl(url);
+                const url = await getDownloadURL(ref(storage, videoUrl)); // Fetch video URL from Firebase
+                setVideoUri(url);
             } catch (error) {
                 console.error("Error fetching video URL:", error);
             } finally {
                 setIsLoading(false);
             }
         };
+
         fetchVideoUrl();
-
-        // Initial orientation check
-        handleOrientationChange();
-
-        // Add event listener for orientation change
-        const subscription = ScreenOrientation.addOrientationChangeListener(handleOrientationChange);
-
-        return () => {
-            subscription.remove(); // Clean up the event listener
-            clearTimeout(orientationLockTimeout); // Clear timeout on cleanup
-            ScreenOrientation.unlockAsync(); // Unlock orientation on cleanup
-        };
-    }, [isPortrait]);
+    }, [videoUrl]);
 
     return (
         <SafeAreaView style={styles.background}>
@@ -72,13 +46,13 @@ const VideoPage = () => {
                 <AntDesign name="left" size={24} color="white" style={styles.backIcon} />
             </Pressable>
 
-            <View style={isPortrait ? styles.videoContainerPortrait : styles.videoContainerLandscape}>
+            <View style={styles.videoContainer}>
                 {isLoading ? (
                     <ActivityIndicator size="large" color="#d9008d" />
-                ) : videoUrl ? (
+                ) : videoUri ? (
                     <Video 
-                        source={{ uri: videoUrl }} 
-                        style={isPortrait ? styles.videoPortrait : styles.videoLandscape} 
+                        source={{ uri: videoUri }} 
+                        style={styles.video} 
                         useNativeControls 
                         resizeMode="contain" 
                     />
@@ -87,14 +61,14 @@ const VideoPage = () => {
                 )}
             </View>
 
-            <Text style={styles.videoName}>Godzilla x Kong: The New Empire</Text>
+            <Text style={styles.videoName}>{videoName}</Text>
 
             <View style={styles.videoIcons}>
                 {['Watchlist', 'Share', 'Download'].map((title, index) => (
                     <Pressable key={index}>
                         <View style={styles.icons}>
-                            <Ionicons 
-                                name={title === 'Download' ? 'download' : title === 'Watchlist' ? 'eye-outline' : 'share'} 
+                            <AntDesign 
+                                name={title === 'Download' ? 'download' : title === 'Watchlist' ? 'eyeo' : 'sharealt'} 
                                 size={32} color="white" 
                             />
                             <Text style={styles.iconTitle}>{title}</Text>
@@ -109,15 +83,52 @@ const VideoPage = () => {
 export default VideoPage;
 
 const styles = StyleSheet.create({
-    background: { backgroundColor: "#1f1e1e", height: "100%" },
-    videoContainerPortrait: { alignItems: 'center', justifyContent: 'center', backgroundColor: "black", height: "30%", marginVertical: 10 },
-    videoContainerLandscape: { alignItems: 'center', justifyContent: 'center', backgroundColor: "black", height: "30%", marginVertical: 10 },
-    text: { fontSize: 24, fontWeight: 'bold', color: "white" },
-    videoName: { textAlign: "left", color: "white", fontSize: 15, fontWeight: "bold", marginLeft: 15 },
-    videoIcons: { justifyContent: "space-between", flexDirection: "row", alignItems: "center", marginTop: 30, marginHorizontal: 50 },
-    icons: { flexDirection: "column", alignItems: "center", gap: 5 },
-    iconTitle: { color: "white", fontSize: 15, fontWeight: "bold" },
-    backIcon: { marginTop: 15, marginLeft: 15 },
-    videoPortrait: { width: '100%', height: '100%' },
-    videoLandscape: { width: '100%', height: '100%' }, // Modify as needed for landscape
+    background: {
+        backgroundColor: "#1f1e1e",
+        height: "100%",
+    },
+    videoContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: "black",
+        height: "30%",
+        marginVertical: 10,
+    },
+    text: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: "white",
+    },
+    videoName: {
+        textAlign: "left",
+        color: "white",
+        fontSize: 18,
+        fontWeight: "bold",
+        marginLeft: 15,
+    },
+    backIcon: {
+        marginTop: 15,
+        marginLeft: 15,
+    },
+    video: {
+        width: '100%',
+        height: '100%',
+    },
+    videoIcons: {
+        justifyContent: "space-between",
+        flexDirection: "row",
+        alignItems: "center",
+        marginTop: 30,
+        marginHorizontal: 50,
+    },
+    icons: {
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 5,
+    },
+    iconTitle: {
+        color: "white",
+        fontSize: 15,
+        fontWeight: "bold",
+    },
 });
