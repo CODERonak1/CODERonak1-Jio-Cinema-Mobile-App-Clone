@@ -2,7 +2,7 @@
 import { StyleSheet, Image, ScrollView, Pressable, Text, useWindowDimensions } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { ref, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebase'; // Assuming 'storage' is initialized in firebase.js
+import { storage } from '../firebase';
 
 // Channels component definition
 const Channels = () => {
