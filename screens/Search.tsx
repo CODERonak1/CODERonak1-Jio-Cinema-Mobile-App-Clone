@@ -1,9 +1,9 @@
 import { Text, StyleSheet, View, SafeAreaView, Pressable, TextInput, FlatList, Image } from 'react-native';
-// Imports the useNavigation hook
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
-// Icons
+import { useState, useEffect } from 'react';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { ref, getDownloadURL } from 'firebase/storage';
+import { storage } from '../firebase'; // Ensure your firebase storage is configured correctly
 
 interface ImageData {
     id: number;
@@ -12,25 +12,39 @@ interface ImageData {
 }
 
 const Search = () => {
-    // This is the state for the search bar (now a string)
     const [search, setSearch] = useState<string>("");
-
-    // This is the state for the search results
     const [results, setResults] = useState<ImageData[]>([]);
+    const [imageData, setImageData] = useState<ImageData[]>([]); // State to hold images from Firebase
 
-    // Mock data for images
-    const imageData: ImageData[] = [
-        { id: 1, name: 'Fall Guy', imageUrl: 'https://i.redd.it/6dc8pfhig5nc1.jpeg' },
-        { id: 2, name: 'Wonka', imageUrl: 'https://image.tmdb.org/t/p/original/cDkMUi0i85qgjlRqq92k2yzRHA2.jpg' },
-        { id: 3, name: 'Game Of Thrones', imageUrl: 'https://thedigitalbits.com/media/k2/items/cache/6e4b2528701707a3ed973fc804a3e209_XL.jpg' },
-        { id: 4, name: 'House Of The Dragon', imageUrl: 'https://m.media-amazon.com/images/M/MV5BM2QzMGVkNjUtN2Y4Yi00ODMwLTg3YzktYzUxYjJlNjFjNDY1XkEyXkFqcGc@._V1_.jpg' },
-        { id: 5, name: '12 Monkeys', imageUrl: 'https://m.media-amazon.com/images/M/MV5BMTkwOTcxNzMzOV5BMl5BanBnXkFtZTgwODYxNjg0ODE@._V1_.jpg' },
-        { id: 6, name: 'Godzilla x Kong', imageUrl: 'https://4kwallpapers.com/images/wallpapers/godzilla-x-kong-the-2560x2560-15847.jpg' },
-        { id: 7, name: 'Pill', imageUrl: 'https://m.media-amazon.com/images/M/MV5BZWQ5NTliZjQtODRhNS00ZDc5LTkwYjAtZGYzYzg3YWZhMDJhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg' },
-        { id: 8, name: 'Oppenheimer', imageUrl: 'https://cdn.wallpapersafari.com/93/54/80bmWj.jpg' },
-    ];
+    const navigation = useNavigation();
 
-    // Handle search and filter results based on input
+    // Define your image names here
+    const imageNames = ['12.jpg', 'GOT.jpg', 'HOD.jpg', 'Dune.jpg', 'Oppen.jpg', 'GOK.jpg', 'JE.jpg', 'TLP.jpg', 'joker.jpg', 'pill.jpg',];
+
+    // Fetch images from Firebase Storage
+    useEffect(() => {
+        const fetchImages = async () => {
+            try {
+                const dataPromises = imageNames.map(async (imageName, index) => {
+                    const imageRef = ref(storage, imageName); // Reference to the image
+                    const url = await getDownloadURL(imageRef); // Get the download URL
+                    return {
+                        id: index + 1,
+                        name: imageName,
+                        imageUrl: url,
+                    };
+                });
+
+                const data = await Promise.all(dataPromises); // Wait for all URLs to be fetched
+                setImageData(data); // Set the image data
+            } catch (error) {
+                console.error("Error fetching images: ", error.code, error.message);
+            }
+        };
+
+        fetchImages();
+    }, []); // No need to include `storage` in dependency array
+
     const handleSearch = (text: string) => {
         setSearch(text);
         const filteredResults = imageData.filter((item) =>
@@ -39,10 +53,6 @@ const Search = () => {
         setResults(filteredResults);
     };
 
-    // Initializes the useNavigation hook
-    const navigation = useNavigation();
-
-    // Function to navigate back
     const back = () => {
         navigation.goBack();
         console.log("Just went back from the Search screen");
@@ -51,23 +61,18 @@ const Search = () => {
     const openVideoPage = () => {
         navigation.navigate('VideoPage');
         console.log("Video Page");
-    }
+    };
 
-    // Rendering each result item in FlatList, now only showing images
     const renderItem = ({ item }: { item: ImageData }) => (
         <Image source={{ uri: item.imageUrl }} style={styles.resultImage} />
     );
 
     return (
         <SafeAreaView style={styles.background}>
-
             <View style={styles.searchContainer}>
-
-                {/* This is the back button */}
                 <Pressable onPress={back}>
                     <AntDesign name="left" size={32} color="white" style={{ marginTop: 6, marginLeft: 5 }} />
                 </Pressable>
-
                 <TextInput
                     style={styles.input}
                     onChangeText={handleSearch}
@@ -75,12 +80,6 @@ const Search = () => {
                     placeholder="Search for movies, shows or sports"
                     placeholderTextColor="grey"
                 />
-
-
-                {/* <Pressable>
-                    <AntDesign name="search1" size={30} color="white" style={{ marginTop: 6, marginRight: 8 }} />
-                </Pressable> */}
-
             </View>
 
             <View style={styles.container}>
@@ -93,12 +92,12 @@ const Search = () => {
                     />
                 ) : (
                     <View style={styles.contentContainer}>
-                        {/* Use map to display all images in the imageData array */}
                         {imageData.map((item) => (
-
-                            <Pressable onPress={openVideoPage} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
+                            <Pressable
+                                key={item.id}
+                                onPress={openVideoPage}
+                                android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
                                 <Image
-                                    key={item.id}
                                     source={{ uri: item.imageUrl }}
                                     style={styles.resultImage}
                                 />
@@ -137,10 +136,10 @@ const styles = StyleSheet.create({
     },
 
     input: {
-        color: 'white', // Changed text color to white to make it visible on dark background
+        color: 'white',
         fontSize: 16,
-        flex: 1, // Allow input to take up the remaining space
-        paddingHorizontal: 10, // Added padding for better input experience
+        flex: 1,
+        paddingHorizontal: 10,
     },
 
     flatList: {
