@@ -1,67 +1,54 @@
-import { StyleSheet, Text, View, Image, ScrollView, Pressable } from 'react-native';
-import React from 'react';
+// imports
+import { StyleSheet, Image, ScrollView, Pressable, Text, useWindowDimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ref, getDownloadURL } from 'firebase/storage';
+import { storage } from '../firebase'; // Assuming 'storage' is initialized in firebase.js
 
+// channels component
 const Channels = () => {
+    const [channels, setChannels] = useState([]);
+    const [error, setError] = useState(null); // State to track errors
+    const { width } = useWindowDimensions(); // Get the width of the device screen
+
+    useEffect(() => {
+        const channelNames = [
+            'Colors', 'MTV', 'ColorsKann', 'ColorsMarathi', 'Nick',
+            'HBO', 'Peacock', 'ColorsBangla', 'ColorsGuj', 'ColorsInfinity', 'News18India'
+        ];
+
+        const fetchImages = async () => {
+            try {
+                const urls = await Promise.all(channelNames.map(async (name) => {
+                    const url = await getDownloadURL(ref(storage, `Channels/${name}.png`));
+                    return { name, url };
+                }));
+                setChannels(urls);
+            } catch (err) {
+                setError('Failed to load channels.');
+                console.error('Error fetching images:', err); // Log the error to see more details
+            }
+        };
+
+        fetchImages();
+    }, []);
+
+    if (error) {
+        return (
+            <Text style={styles.errorText}>{error}</Text>
+        );
+    }
+
+    // Calculate image width and height based on screen width
+    const imageWidth = width * 0.21; // Make each image occupy 30% of the screen width
+    const imageHeight = imageWidth * 0.66; // Keeping a 3:2 aspect ratio
+
     return (
-
-        // using scroll view for the horizontal channel
-        <ScrollView style={styles.channels} horizontal={true} showsHorizontalScrollIndicator={false}>
-
-            {/* colors */}
-            <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
-                <Image source={require('../assets/channels/Colors.png')} style={styles.channelImg} />
-            </Pressable>
-
-            {/* MTV */}
-            <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
-                <Image source={require('../assets/channels/MTV.png')} style={styles.channelImg} />
-            </Pressable>
-
-            {/* colors kannada */}
-            <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
-                <Image source={require('../assets/channels/ColorsKann.png')} style={styles.channelImg} />
-            </Pressable>
-
-            {/* colors marathi */}
-            <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
-                <Image source={require('../assets/channels/ColorsMarathi.png')} style={styles.channelImg} />
-            </Pressable>
-
-            {/* nick */}
-            <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
-                <Image source={require('../assets/channels/Nick.png')} style={styles.channelImg} />
-            </Pressable>
-
-            {/* HBO */}
-            <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
-                <Image source={require('../assets/channels/HBO.png')} style={styles.channelImg} />
-            </Pressable>
-
-            {/* peacock */}
-            <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
-                <Image source={require('../assets/channels/Peacock.png')} style={styles.channelImg} />
-            </Pressable>
-
-            {/* colors bangla */}
-            <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
-                <Image source={require('../assets/channels/ColorsBangla.png')} style={styles.channelImg} />
-            </Pressable>
-
-            {/* colors gujrathi */}
-            <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
-                <Image source={require('../assets/channels/ColorsGuj.png')} style={styles.channelImg} />
-            </Pressable>
-
-            {/* colors infinity */}
-            <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
-                <Image source={require('../assets/channels/ColorsInfinity.png')} style={styles.channelImg} />
-            </Pressable>
-
-            {/* news 18 india */}
-            <Pressable style={styles.channel} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
-                <Image source={require('../assets/channels/News18India.png')} style={styles.channelImg} />
-            </Pressable>
-
+        <ScrollView style={styles.channels} horizontal showsHorizontalScrollIndicator={false}>
+            {channels.map((channel, index) => (
+                <Pressable key={index} style={[styles.channel, { width: imageWidth, height: imageHeight + 30 }]}>
+                    <Image source={{ uri: channel.url }} style={[styles.channelImg, { width: imageWidth, height: imageHeight }]} />
+                </Pressable>
+            ))}
         </ScrollView>
     );
 };
@@ -70,7 +57,8 @@ export default Channels;
 
 const styles = StyleSheet.create({
     channels: {
-
+        flexDirection: 'row',
+        paddingVertical: 10,
     },
     channel: {
         backgroundColor: '#262729',
@@ -78,14 +66,14 @@ const styles = StyleSheet.create({
         padding: 12,
         alignItems: 'center',
         justifyContent: 'center',
-        width: 100,
-        height: 90,
-        marginHorizontal: 0,
-        marginLeft: 10,
-
+        marginHorizontal: 8,
     },
     channelImg: {
-        height: 60,
-        width: 90,
+        resizeMode: 'contain', // Ensure the image scales properly
+    },
+    errorText: {
+        color: '#d9008d',
+        textAlign: 'center',
+        marginTop: 20,
     },
 });
