@@ -3,7 +3,7 @@
     "name": "Jio Cinema Clone",
     "slug": "jio-cinema-clone",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/Logo.png",
     "userInterfaceStyle": "light",
     "splash": {

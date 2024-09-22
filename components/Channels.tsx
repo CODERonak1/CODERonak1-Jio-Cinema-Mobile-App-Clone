@@ -55,7 +55,7 @@ const Channels = () => {
         <ScrollView style={styles.channels} horizontal showsHorizontalScrollIndicator={false}>
             {channels.map((channel, index) => (
                 // Pressable component for each channel image
-                <Pressable key={index} style={[styles.channel, { width: imageWidth, height: imageHeight + 30 }]}>
+                <Pressable android_ripple={{ color: '#00000035', borderless: false, foreground: true }} key={index} style={[styles.channel, { width: imageWidth, height: imageHeight + 30 }]}>
                     <Image source={{ uri: channel.url }} style={[styles.channelImg, { width: imageWidth, height: imageHeight }]} />
                 </Pressable>
             ))}
