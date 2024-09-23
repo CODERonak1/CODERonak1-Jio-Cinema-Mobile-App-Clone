@@ -20,7 +20,7 @@ const Search = () => {
     const navigation = useNavigation(); // Hook to navigate between screens
 
     // Define your image names here (ensure these match the actual names in Firebase Storage)
-    const imageNames = ['12.jpg', 'GOT.jpg', 'HOD.jpg', 'Dune.jpg', 'Oppen.jpg', 'GOK.jpg', 'JE.jpg', 'TLP.jpg', 'joker.jpg', 'pill.jpg'];
+    const imageNames = ['Images/12 Monkeys.jpg', 'Images/GOT.jpg', 'Images/HOD.jpg', 'Images/Dune.jpg', 'Images/Oppen.jpg', 'Images/GOK.jpg', 'Images/JE.jpg', 'Images/TLP.jpg', 'Images/Man of Steel.jpg', 'Images/Asur.jpg'];
 
     // Fetch images from Firebase Storage on component mount
     useEffect(() => {
@@ -107,6 +107,7 @@ const Search = () => {
                                 onPress={openVideoPage} // Navigate to video page on press
                                 android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
                                 <Image
+    
                                     source={{ uri: item.imageUrl }} // Source for the image
                                     style={styles.resultImage} // Style for the image
                                 />
