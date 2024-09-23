@@ -32,15 +32,15 @@ const Content = () => {
     const fetchImages = async () => {
       try {
         const imageRefs = [
-          ref(storage, 'Oppen.jpg'),
-          ref(storage, 'GOK.jpg'),
-          ref(storage, 'HOD.jpg'),
-          ref(storage, 'Dune.jpg'),
-          ref(storage, 'JE.jpg'),
-          ref(storage, 'Man of Steel.jpg'),
-          ref(storage, 'Asur.jpg'),
-          ref(storage, 'TLP.jpg'),
-          ref(storage, '12 Monkeys.jpg'),
+          ref(storage, 'Images/Oppen.jpg'),
+          ref(storage, 'Images/GOK.jpg'),
+          ref(storage, 'Images/HOD.jpg'),
+          ref(storage, 'Images/Dune.jpg'),
+          ref(storage, 'Images/JE.jpg'),
+          ref(storage, 'Images/Man of Steel.jpg'),
+          ref(storage, 'Images/Asur.jpg'),
+          ref(storage, 'Images/TLP.jpg'),
+          ref(storage, 'Images/12 Monkeys.jpg'),
         ];
 
         // Fetch the download URLs for each image reference
