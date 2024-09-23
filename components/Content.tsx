@@ -9,6 +9,7 @@ type Item = {
   id: string;
   uri: string;
   name: string;
+  videoUrl: string; // Added videoUrl field to Item
 };
 
 type Section = {
@@ -17,13 +18,13 @@ type Section = {
 };
 
 const Content = () => {
-
   const navigation = useNavigation();
 
-  const openVideoPage = () => {
-    navigation.navigate('VideoPage');
-    console.log("Video Page");
-  }
+  const openVideoPage = (videoUrl: string, videoName: string) => {
+    // Navigate to VideoPage with videoUrl and videoName as params
+    navigation.navigate('VideoPage', { videoUrl, videoName });
+    console.log(`Navigating to VideoPage: ${videoName}, ${videoUrl}`);
+  };
 
   const [sections, setSections] = useState<Section[]>([]); // Specify the state type
 
@@ -36,49 +37,53 @@ const Content = () => {
           ref(storage, 'HOD.jpg'),
           ref(storage, 'Dune.jpg'),
           ref(storage, 'JE.jpg'),
-          ref(storage, 'joker.jpg'),
-          ref(storage, 'pill.jpg'),
+          ref(storage, 'Man of Steel.jpg'),
+          ref(storage, 'Asur.jpg'),
           ref(storage, 'TLP.jpg'),
-          ref(storage, '12.jpg'),
+          ref(storage, '12 Monkeys.jpg'),
         ];
 
         // Fetch the download URLs for each image reference
         const urls = await Promise.all(imageRefs.map((imageRef) => getDownloadURL(imageRef)));
 
-        // Set the sections with the fetched URLs
+        // Sample video URLs corresponding to the images
+        const videoUrls = [
+          'Video/Oppenheimer.mp4',
+          'Video/Godzilla x Kong.mp4',
+          'Video/House of the Dragon.mp4',
+          'Video/Dune.mp4',
+          'Video/Johnny English Strikes Again.mp4',
+          'Video/Man of Steel.mp4',
+          'Video/Asur.mp4',
+          'Video/The Lazarus Project.mp4',
+          'Video/12 Monkeys.mp4',
+        ];
+
+        // Set the sections with the fetched URLs and video references
         setSections([
           {
             title: "Hot Right Now 🔥",
             data: [
-              { id: '1', uri: urls[0], name: "Oppenheimer" },
-              { id: '2', uri: urls[1], name: "Godzilla x Kong" },
-              { id: '3', uri: urls[2], name: "House Of The Dragon" },
-              { id: '4', uri: urls[0], name: "Oppenheimer" },
-              { id: '5', uri: urls[1], name: "Godzilla x Kong" },
-              { id: '6', uri: urls[2], name: "House Of The Dragon" },
-            ]
+              { id: '1', uri: urls[0], name: "Oppenheimer", videoUrl: videoUrls[0] },
+              { id: '2', uri: urls[1], name: "Godzilla x Kong", videoUrl: videoUrls[1] },
+              { id: '3', uri: urls[2], name: "House Of The Dragon", videoUrl: videoUrls[2] },
+            ],
           },
           {
             title: "Must Watch Movies",
             data: [
-              { id: '7', uri: urls[3], name: "Dune" },
-              { id: '8', uri: urls[4], name: "Johhny English" },
-              { id: '9', uri: urls[5], name: "Joker" },
-              { id: '10', uri: urls[3], name: "Dune" },
-              { id: '11', uri: urls[4], name: "Johhny English" },
-              { id: '12', uri: urls[5], name: "Joker" },
-            ]
+              { id: '7', uri: urls[3], name: "Dune", videoUrl: videoUrls[3] },
+              { id: '8', uri: urls[4], name: "Johnny English Strikes Again", videoUrl: videoUrls[4] },
+              { id: '9', uri: urls[5], name: "Man of Steel", videoUrl: videoUrls[5] },
+            ],
           },
           {
             title: "Must Watch Series",
             data: [
-              { id: '13', uri: urls[6], name: "Pill" },
-              { id: '14', uri: urls[7], name: "The Lazarus Project" },
-              { id: '15', uri: urls[8], name: "12 Monkeys" },
-              { id: '16', uri: urls[6], name: "Pill" },
-              { id: '17', uri: urls[7], name: "The Lazarus Project" },
-              { id: '18', uri: urls[8], name: "12 Monkeys" },
-            ]
+              { id: '13', uri: urls[6], name: "Asur", videoUrl: videoUrls[6] },
+              { id: '14', uri: urls[7], name: "The Lazarus Project", videoUrl: videoUrls[7] },
+              { id: '15', uri: urls[8], name: "12 Monkeys", videoUrl: videoUrls[8] },
+            ],
           },
         ]);
       } catch (error) {
@@ -101,7 +106,9 @@ const Content = () => {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <View style={styles.item}>
-                <Pressable onPress={openVideoPage} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
+                <Pressable 
+                  onPress={() => openVideoPage(item.videoUrl, item.name)} // Pass video URL and name when pressed
+                  android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
                   <Image
                     fadeDuration={1000}
                     source={{ uri: item.uri }}
