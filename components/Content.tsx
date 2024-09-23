@@ -67,6 +67,10 @@ const Content = () => {
               { id: '1', uri: urls[0], name: "Oppenheimer", videoUrl: videoUrls[0] },
               { id: '2', uri: urls[1], name: "Godzilla x Kong", videoUrl: videoUrls[1] },
               { id: '3', uri: urls[2], name: "House Of The Dragon", videoUrl: videoUrls[2] },
+
+              { id: '4', uri: urls[0], name: "Oppenheimer", videoUrl: videoUrls[0] },
+              { id: '5', uri: urls[1], name: "Godzilla x Kong", videoUrl: videoUrls[1] },
+              { id: '6', uri: urls[2], name: "House Of The Dragon", videoUrl: videoUrls[2] },
             ],
           },
           {
@@ -75,6 +79,10 @@ const Content = () => {
               { id: '7', uri: urls[3], name: "Dune", videoUrl: videoUrls[3] },
               { id: '8', uri: urls[4], name: "Johnny English Strikes Again", videoUrl: videoUrls[4] },
               { id: '9', uri: urls[5], name: "Man of Steel", videoUrl: videoUrls[5] },
+
+              { id: '10', uri: urls[3], name: "Dune", videoUrl: videoUrls[3] },
+              { id: '11', uri: urls[4], name: "Johnny English Strikes Again", videoUrl: videoUrls[4] },
+              { id: '12', uri: urls[5], name: "Man of Steel", videoUrl: videoUrls[5] },
             ],
           },
           {
@@ -83,6 +91,10 @@ const Content = () => {
               { id: '13', uri: urls[6], name: "Asur", videoUrl: videoUrls[6] },
               { id: '14', uri: urls[7], name: "The Lazarus Project", videoUrl: videoUrls[7] },
               { id: '15', uri: urls[8], name: "12 Monkeys", videoUrl: videoUrls[8] },
+
+              { id: '16', uri: urls[6], name: "Asur", videoUrl: videoUrls[6] },
+              { id: '17', uri: urls[7], name: "The Lazarus Project", videoUrl: videoUrls[7] },
+              { id: '18', uri: urls[8], name: "12 Monkeys", videoUrl: videoUrls[8] },
             ],
           },
         ]);
@@ -106,7 +118,7 @@ const Content = () => {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <View style={styles.item}>
-                <Pressable 
+                <Pressable
                   onPress={() => openVideoPage(item.videoUrl, item.name)} // Pass video URL and name when pressed
                   android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
                   <Image
