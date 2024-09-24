@@ -23,10 +23,10 @@ const WatchNow = () => {
   useEffect(() => {
     const fetchImages = async () => {
       const imageRefs = [
-        ref(storage, 'GOK.jpg'),
-        ref(storage, 'GOT.jpg'),
-        ref(storage, 'Dune.jpg'),
-        ref(storage, 'Oppen.jpg'),
+        ref(storage, 'Images/GOK.jpg'),
+        ref(storage, 'Images/GOT.jpg'),
+        ref(storage, 'Images/Dune.jpg'),
+        ref(storage, 'Images/Oppen.jpg'),
       ];
 
       const imageUrls = await Promise.all(
@@ -66,10 +66,7 @@ const WatchNow = () => {
       <Pressable onPress={() => openVideoPage(item.videoUrl, item.name)} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
         <Image source={{ uri: item.imgUrl }} style={styles.image} />
         {/* Linear Gradient below the image */}
-        <LinearGradient
-          colors={['rgba(0,0,0,0.6)', 'transparent']}
-          style={styles.linearGradient}
-        />
+        
       </Pressable>
     </View>
   );
@@ -171,13 +168,5 @@ const styles = StyleSheet.create({
     width: 370,
     borderRadius: 12,
     backgroundColor: '#2B2B2B', 
-  },
-  linearGradient: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 100, 
-    borderRadius: 12,
   },
 });
