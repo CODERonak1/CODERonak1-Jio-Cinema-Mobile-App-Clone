@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, FlatList, Animated, Pressable } from 'react-native';
+import { StyleSheet, View, Image, Dimensions, FlatList, Animated, Pressable } from 'react-native';
 import { ref, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebase'; 
+import { storage } from '../firebase';
 import { useNavigation } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient'; // Import from expo-linear-gradient
 
 interface ImageData {
   id: string;
@@ -16,6 +17,7 @@ const { width } = Dimensions.get('window');
 const WatchNow = () => {
   const navigation = useNavigation();
   const [images, setImages] = useState<ImageData[]>([]);
+  const [isLoading, setIsLoading] = useState(true); // State for loading
   const scrollX = new Animated.Value(0);
 
   useEffect(() => {
@@ -49,6 +51,7 @@ const WatchNow = () => {
       );
 
       setImages(imageUrls);
+      setIsLoading(false); // Set loading to false once images are fetched
     };
 
     fetchImages();
@@ -62,6 +65,11 @@ const WatchNow = () => {
     <View style={styles.imageContainer}>
       <Pressable onPress={() => openVideoPage(item.videoUrl, item.name)} android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
         <Image source={{ uri: item.imgUrl }} style={styles.image} />
+        {/* Linear Gradient below the image */}
+        <LinearGradient
+          colors={['rgba(0,0,0,0.6)', 'transparent']}
+          style={styles.linearGradient}
+        />
       </Pressable>
     </View>
   );
@@ -88,23 +96,37 @@ const WatchNow = () => {
     );
   };
 
+  // Custom skeleton loader
+  const renderSkeleton = () => (
+    <View style={styles.skeletonContainer}>
+      <View style={styles.skeletonImage} />
+    </View>
+  );
+
   return (
     <View>
-      <FlatList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled
-        data={images}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-          { useNativeDriver: false }
-        )}
-        scrollEventThrottle={16}
-      />
+      {isLoading ? (
+        // Custom skeleton loader while images are loading
+        renderSkeleton()
+      ) : (
+        <>
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled
+            data={images}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+              { useNativeDriver: false }
+            )}
+            scrollEventThrottle={16}
+          />
 
-      {renderDots()}
+          {renderDots()}
+        </>
+      )}
     </View>
   );
 };
@@ -115,6 +137,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     alignItems: 'center',
+    position: 'relative',
   },
   image: {
     height: 480,
@@ -136,5 +159,25 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: '#d9008d',
     marginHorizontal: 5,
+  },
+  skeletonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 30,
+  },
+  skeletonImage: {
+    height: 480,
+    width: 370,
+    borderRadius: 12,
+    backgroundColor: '#2B2B2B', 
+  },
+  linearGradient: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 100, 
+    borderRadius: 12,
   },
 });

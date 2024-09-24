@@ -27,6 +27,7 @@ const Content = () => {
   };
 
   const [sections, setSections] = useState<Section[]>([]); // Specify the state type
+  const [loading, setLoading] = useState(true); // State to track loading status
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -98,6 +99,7 @@ const Content = () => {
             ],
           },
         ]);
+        setLoading(false); // Set loading to false after fetching
       } catch (error) {
         console.error("Error fetching image URLs: ", error);
       }
@@ -108,31 +110,46 @@ const Content = () => {
 
   return (
     <View>
-      {sections.map((section) => (
-        <View key={section.title}>
-          <Text style={styles.title}>{section.title}</Text>
-          <FlatList
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={section.data}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View style={styles.item}>
-                <Pressable
-                  onPress={() => openVideoPage(item.videoUrl, item.name)} // Pass video URL and name when pressed
-                  android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
-                  <Image
-                    fadeDuration={1000}
-                    source={{ uri: item.uri }}
-                    style={styles.image}
-                    resizeMode="cover"
-                  />
-                </Pressable>
-              </View>
-            )}
-          />
+      {loading ? (
+        // Render custom skeleton loader while loading
+        <View style={styles.skeletonContainer}>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <View key={index} style={styles.skeletonRow}>
+              <View style={styles.skeletonImage} />
+              <View style={styles.skeletonImage} />
+              <View style={styles.skeletonImage} />
+              <View style={styles.skeletonImage} />
+              <View style={styles.skeletonImage} />
+            </View>
+          ))}
         </View>
-      ))}
+      ) : (
+        sections.map((section) => (
+          <View key={section.title}>
+            <Text style={styles.title}>{section.title}</Text>
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={section.data}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View style={styles.item}>
+                  <Pressable
+                    onPress={() => openVideoPage(item.videoUrl, item.name)} // Pass video URL and name when pressed
+                    android_ripple={{ color: '#00000035', borderless: false, foreground: true }}>
+                    <Image
+                      fadeDuration={1000}
+                      source={{ uri: item.uri }}
+                      style={styles.image}
+                      resizeMode="cover"
+                    />
+                  </Pressable>
+                </View>
+              )}
+            />
+          </View>
+        ))
+      )}
     </View>
   );
 };
@@ -157,5 +174,21 @@ const styles = StyleSheet.create({
     height: 160,
     width: 120,
     borderRadius: 10,
+  },
+  skeletonContainer: {
+    paddingVertical: 15,
+    marginHorizontal: 15,
+  },
+  skeletonRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  skeletonImage: {
+    backgroundColor: '#2B2B2B', 
+    height: 160,
+    width: 120,
+    borderRadius: 10,
+    marginRight: 10,
   },
 });
