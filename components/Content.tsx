@@ -113,6 +113,7 @@ const Content = () => {
       {loading ? (
         // Render custom skeleton loader while loading
         <View style={styles.skeletonContainer}>
+          <View style={styles.skeletonText} />
           {Array.from({ length: 3 }).map((_, index) => (
             <View key={index} style={styles.skeletonRow}>
               <View style={styles.skeletonImage} />
@@ -190,5 +191,14 @@ const styles = StyleSheet.create({
     width: 120,
     borderRadius: 10,
     marginRight: 10,
+  },
+
+  skeletonText: {
+    backgroundColor: '#2B2B2B', // Skeleton background color
+    height: 20,
+    width: 100,
+    borderRadius: 5,
+    marginVertical: 15,
+    marginHorizontal: 15,
   },
 });
