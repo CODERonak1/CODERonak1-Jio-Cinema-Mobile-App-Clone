@@ -50,7 +50,9 @@ const Header = ({ heading }: Props) => {
         {/* Opens the profile screen on press on the profile image*/}
         <Pressable onPress={openProfile}>
           <Image
-            source={{ uri: 'https://watchersonthewall.com/wp-content/uploads/2019/04/Jon-Snow-Horse-Winterfell-Season-8.jpg' }}
+            source={
+              require('../assets/guest.png')
+            }
             style={styles.logo}
           />
         </Pressable>

@@ -13,7 +13,6 @@ import Movies from './screens/Movies';
 import TvShows from './screens/TvShows';
 import Sports from './screens/Sports';
 import Downloads from './screens/Downloads';
-import LoginOrSignUp from './screens/LoginOrSignUp';
 import Search from './screens/Search';
 import Profile from './screens/Profile';
 import VideoPage from './screens/VideoPage';
