@@ -79,12 +79,6 @@ const Main = () => {
           title: "TV Shows"
         }} />
 
-        {/* This is the Downloads tabs style and icon */}
-        <Tab.Screen name="Downloads" component={Downloads} options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => <Entypo name="download" size={24} color={color} />
-        }} />
-
       </Tab.Navigator>
     </>
   )
