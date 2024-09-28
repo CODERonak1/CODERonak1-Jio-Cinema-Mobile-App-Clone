@@ -18,12 +18,16 @@ Here are some screenshots of the app:
 
 ## Search
 
-![Search](./media/s1.png) | 
+![Search](./media/s4.png) | 
 
 ## Search 2
 
-![Search 2](./media/s2.png) | 
+![Search 2](./media/s5.png) | 
 
 ## Video Player
 
-![Video Player](./media/s3.png)
+![Video Player](./media/s6.png)
+
+## Video 
+
+![Video Player](./media/CloneVideo.mp4)
