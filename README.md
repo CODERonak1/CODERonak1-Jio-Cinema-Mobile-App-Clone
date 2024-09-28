@@ -30,4 +30,4 @@ Here are some screenshots of the app:
 
 ## Video 
 
-![Video Player](./media/CloneVideo.mp4)
+https://x.com/CODERonak/status/1838975336412831792?s=19
