@@ -4,4 +4,4 @@
 
 Here are some screenshots of the app:
 
-![Home Screen](./media/s1.png) | ![Movie Details](./media/s2.png) | ![Media Player](./media/s3.png)
+!(./media/s1.png) | !(./media/s2.png) | !(./media/s3.png)
